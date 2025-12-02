@@ -8,9 +8,11 @@ import {
   updateProjectApi,
   deleteProjectApi,
   type QueryProjectsParams,
-  type CreateProjectInput,
-  type UpdateProjectInput,
 } from "@/lib/api/project.api";
+import type {
+  CreateProjectInput,
+  UpdateProjectInput,
+} from "@/lib/validations/project.schema";
 
 /**
  * Query key factory for projects

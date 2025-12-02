@@ -5,9 +5,6 @@ import type {
   UpdateProjectInput,
 } from "../validations/project.schema";
 
-// Re-export types for convenience
-export type { CreateProjectInput, UpdateProjectInput };
-
 export interface Project {
   id: string;
   name: string;

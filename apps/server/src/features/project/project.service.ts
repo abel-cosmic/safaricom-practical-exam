@@ -1,11 +1,10 @@
-import { randomUUID } from "crypto";
 import { prisma } from "@/lib/prisma";
 import {
   CreateProjectDto,
-  UpdateProjectDto,
-  QueryProjectsDto,
-  ProjectWithTasks,
   ProjectListResponse,
+  ProjectWithTasks,
+  QueryProjectsDto,
+  UpdateProjectDto,
 } from "./project.dto";
 
 export class ProjectService {

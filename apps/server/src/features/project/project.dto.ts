@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { TaskStatus } from "@prisma/client";
 
-// Create Project DTO
 export const createProjectSchema = z.object({
   body: z.object({
     name: z
@@ -17,7 +16,6 @@ export const createProjectSchema = z.object({
 
 export type CreateProjectDto = z.infer<typeof createProjectSchema>["body"];
 
-// Update Project DTO
 export const updateProjectSchema = z.object({
   body: z.object({
     name: z
@@ -35,7 +33,6 @@ export const updateProjectSchema = z.object({
 
 export type UpdateProjectDto = z.infer<typeof updateProjectSchema>["body"];
 
-// Query Projects DTO
 export const queryProjectsSchema = z.object({
   query: z.object({
     page: z
@@ -51,8 +48,6 @@ export const queryProjectsSchema = z.object({
 });
 
 export type QueryProjectsDto = z.infer<typeof queryProjectsSchema>["query"];
-
-// Project with Tasks type
 export interface ProjectWithTasks {
   id: string;
   name: string;
@@ -68,7 +63,6 @@ export interface ProjectWithTasks {
   }[];
 }
 
-// Project List Response
 export interface ProjectListResponse {
   projects: ProjectWithTasks[];
   pagination: {

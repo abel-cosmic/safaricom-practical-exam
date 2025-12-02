@@ -201,6 +201,82 @@ const swaggerDefinition = {
           },
         },
       },
+      TaskWithProject: {
+        allOf: [
+          { $ref: "#/components/schemas/Task" },
+          {
+            type: "object",
+            properties: {
+              project: {
+                type: "object",
+                properties: {
+                  id: { type: "string" },
+                  name: { type: "string" },
+                  description: { type: "string", nullable: true },
+                  createdAt: { type: "string", format: "date-time" },
+                },
+              },
+            },
+          },
+        ],
+      },
+      CreateTaskRequest: {
+        type: "object",
+        required: ["projectId", "title"],
+        properties: {
+          projectId: {
+            type: "string",
+            example: "project-id-here",
+            description: "ID of the project this task belongs to",
+          },
+          title: {
+            type: "string",
+            minLength: 1,
+            maxLength: 200,
+            example: "Complete task implementation",
+          },
+          status: {
+            type: "string",
+            enum: ["OPEN", "IN_PROGRESS", "DONE"],
+            default: "OPEN",
+            example: "OPEN",
+          },
+        },
+      },
+      UpdateTaskRequest: {
+        type: "object",
+        properties: {
+          title: {
+            type: "string",
+            minLength: 1,
+            maxLength: 200,
+            example: "Updated task title",
+          },
+          status: {
+            type: "string",
+            enum: ["OPEN", "IN_PROGRESS", "DONE"],
+            example: "IN_PROGRESS",
+          },
+        },
+      },
+      TaskListResponse: {
+        type: "object",
+        properties: {
+          tasks: {
+            type: "array",
+            items: { $ref: "#/components/schemas/TaskWithProject" },
+          },
+          pagination: {
+            type: "object",
+            properties: {
+              page: { type: "number" },
+              limit: { type: "number" },
+              total: { type: "number" },
+              totalPages: { type: "number" },
+            },
+          },
+        },
+      },
     },
   },
   tags: [
@@ -211,6 +287,10 @@ const swaggerDefinition = {
     {
       name: "Projects",
       description: "Project management endpoints",
+    },
+    {
+      name: "Tasks",
+      description: "Task management endpoints",
     },
   ],
 };

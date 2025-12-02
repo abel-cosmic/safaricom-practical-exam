@@ -1,6 +1,12 @@
 import { axiosInstance } from "../axios";
 import { getErrorMessage, getValidationErrors } from "./client";
-import type { CreateProjectInput, UpdateProjectInput } from "../validations/project.schema";
+import type {
+  CreateProjectInput,
+  UpdateProjectInput,
+} from "../validations/project.schema";
+
+// Re-export types for convenience
+export type { CreateProjectInput, UpdateProjectInput };
 
 export interface Project {
   id: string;
@@ -61,7 +67,9 @@ export const getProjectsApi = async (
  */
 export const getProjectApi = async (id: string): Promise<ProjectResponse> => {
   try {
-    const response = await axiosInstance.get<ProjectResponse>(`/projects/${id}`);
+    const response = await axiosInstance.get<ProjectResponse>(
+      `/projects/${id}`
+    );
     return response.data;
   } catch (error) {
     const message = getErrorMessage(error);
@@ -76,15 +84,16 @@ export const createProjectApi = async (
   data: CreateProjectInput
 ): Promise<ProjectResponse> => {
   try {
-    const response = await axiosInstance.post<ProjectResponse>("/projects", data);
+    const response = await axiosInstance.post<ProjectResponse>(
+      "/projects",
+      data
+    );
     return response.data;
   } catch (error) {
     const message = getErrorMessage(error);
     const validationErrors = getValidationErrors(error);
     throw new Error(
-      validationErrors.name?.[0] ||
-        validationErrors.description?.[0] ||
-        message
+      validationErrors.name?.[0] || validationErrors.description?.[0] || message
     );
   }
 };
@@ -106,9 +115,7 @@ export const updateProjectApi = async (
     const message = getErrorMessage(error);
     const validationErrors = getValidationErrors(error);
     throw new Error(
-      validationErrors.name?.[0] ||
-        validationErrors.description?.[0] ||
-        message
+      validationErrors.name?.[0] || validationErrors.description?.[0] || message
     );
   }
 };
@@ -124,4 +131,3 @@ export const deleteProjectApi = async (id: string): Promise<void> => {
     throw new Error(message);
   }
 };
-

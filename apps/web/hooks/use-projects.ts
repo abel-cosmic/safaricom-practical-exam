@@ -70,7 +70,9 @@ export function useUpdateProject() {
       updateProjectApi(id, data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: projectKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: projectKeys.detail(variables.id) });
+      queryClient.invalidateQueries({
+        queryKey: projectKeys.detail(variables.id),
+      });
     },
   });
 }
@@ -88,4 +90,3 @@ export function useDeleteProject() {
     },
   });
 }
-

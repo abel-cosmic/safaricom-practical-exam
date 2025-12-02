@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { apiReference } from "@scalar/express-api-reference";
@@ -6,7 +7,7 @@ import { auth } from "@/auth";
 import { getMergedOpenAPISpec } from "@/config/openapi-merger";
 import logger from "@/lib/logger";
 import { requestLogger } from "@/middleware/logger.middleware";
-
+import routes from "@/routes";
 const app = express();
 const port = process.env.PORT || 3005;
 app.use(requestLogger);
@@ -45,6 +46,7 @@ app.use(
     },
   })
 );
+app.use("/api", routes);
 app.listen(port, () => {
   logger.info(`🚀 Server listening on port ${port}`);
   logger.info(`📚 Scalar docs available at http://localhost:${port}/docs`);

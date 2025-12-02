@@ -26,134 +26,6 @@ const swaggerDefinition = {
       },
     },
     schemas: {
-      Post: {
-        type: "object",
-        required: [
-          "id",
-          "title",
-          "content",
-          "published",
-          "authorId",
-          "createdAt",
-          "updatedAt",
-        ],
-        properties: {
-          id: {
-            type: "string",
-            description: "Unique identifier for the post",
-          },
-          title: {
-            type: "string",
-            description: "Title of the post",
-            maxLength: 200,
-          },
-          content: {
-            type: "string",
-            description: "Content of the post",
-            maxLength: 10000,
-          },
-          published: {
-            type: "boolean",
-            description: "Whether the post is published",
-            default: false,
-          },
-          authorId: {
-            type: "string",
-            description: "ID of the post author",
-          },
-          createdAt: {
-            type: "string",
-            format: "date-time",
-            description: "Post creation timestamp",
-          },
-          updatedAt: {
-            type: "string",
-            format: "date-time",
-            description: "Post last update timestamp",
-          },
-        },
-      },
-      PostWithAuthor: {
-        allOf: [
-          { $ref: "#/components/schemas/Post" },
-          {
-            type: "object",
-            properties: {
-              author: {
-                type: "object",
-                properties: {
-                  id: { type: "string" },
-                  name: { type: "string", nullable: true },
-                  email: { type: "string" },
-                  image: { type: "string", nullable: true },
-                },
-              },
-            },
-          },
-        ],
-      },
-      CreatePostRequest: {
-        type: "object",
-        required: ["title", "content"],
-        properties: {
-          title: {
-            type: "string",
-            minLength: 1,
-            maxLength: 200,
-            example: "My First Post",
-          },
-          content: {
-            type: "string",
-            minLength: 1,
-            maxLength: 10000,
-            example: "This is the content of my post.",
-          },
-          published: {
-            type: "boolean",
-            default: false,
-            example: false,
-          },
-        },
-      },
-      UpdatePostRequest: {
-        type: "object",
-        properties: {
-          title: {
-            type: "string",
-            minLength: 1,
-            maxLength: 200,
-            example: "Updated Post Title",
-          },
-          content: {
-            type: "string",
-            minLength: 1,
-            maxLength: 10000,
-            example: "Updated content",
-          },
-          published: {
-            type: "boolean",
-            example: true,
-          },
-        },
-      },
-      PostListResponse: {
-        type: "object",
-        properties: {
-          posts: {
-            type: "array",
-            items: { $ref: "#/components/schemas/PostWithAuthor" },
-          },
-          pagination: {
-            type: "object",
-            properties: {
-              page: { type: "number" },
-              limit: { type: "number" },
-              total: { type: "number" },
-              totalPages: { type: "number" },
-            },
-          },
-        },
-      },
       Error: {
         type: "object",
         properties: {
@@ -196,16 +68,149 @@ const swaggerDefinition = {
           },
         },
       },
+      Project: {
+        type: "object",
+        required: ["id", "name", "createdAt"],
+        properties: {
+          id: {
+            type: "string",
+            description: "Unique identifier for the project",
+          },
+          name: {
+            type: "string",
+            description: "Name of the project",
+            maxLength: 200,
+          },
+          description: {
+            type: "string",
+            nullable: true,
+            description: "Description of the project",
+            maxLength: 1000,
+          },
+          createdAt: {
+            type: "string",
+            format: "date-time",
+            description: "Project creation timestamp",
+          },
+        },
+      },
+      Task: {
+        type: "object",
+        required: [
+          "id",
+          "projectId",
+          "title",
+          "status",
+          "createdAt",
+          "updatedAt",
+        ],
+        properties: {
+          id: {
+            type: "string",
+            description: "Unique identifier for the task",
+          },
+          projectId: {
+            type: "string",
+            description: "ID of the project this task belongs to",
+          },
+          title: {
+            type: "string",
+            description: "Title of the task",
+          },
+          status: {
+            type: "string",
+            enum: ["OPEN", "IN_PROGRESS", "DONE"],
+            description: "Status of the task",
+            default: "OPEN",
+          },
+          createdAt: {
+            type: "string",
+            format: "date-time",
+            description: "Task creation timestamp",
+          },
+          updatedAt: {
+            type: "string",
+            format: "date-time",
+            description: "Task last update timestamp",
+          },
+        },
+      },
+      ProjectWithTasks: {
+        allOf: [
+          { $ref: "#/components/schemas/Project" },
+          {
+            type: "object",
+            properties: {
+              tasks: {
+                type: "array",
+                items: { $ref: "#/components/schemas/Task" },
+              },
+            },
+          },
+        ],
+      },
+      CreateProjectRequest: {
+        type: "object",
+        required: ["name"],
+        properties: {
+          name: {
+            type: "string",
+            minLength: 1,
+            maxLength: 200,
+            example: "My Project",
+          },
+          description: {
+            type: "string",
+            maxLength: 1000,
+            example: "This is a project description.",
+          },
+        },
+      },
+      UpdateProjectRequest: {
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
+            minLength: 1,
+            maxLength: 200,
+            example: "Updated Project Name",
+          },
+          description: {
+            type: "string",
+            nullable: true,
+            maxLength: 1000,
+            example: "Updated project description",
+          },
+        },
+      },
+      ProjectListResponse: {
+        type: "object",
+        properties: {
+          projects: {
+            type: "array",
+            items: { $ref: "#/components/schemas/ProjectWithTasks" },
+          },
+          pagination: {
+            type: "object",
+            properties: {
+              page: { type: "number" },
+              limit: { type: "number" },
+              total: { type: "number" },
+              totalPages: { type: "number" },
+            },
+          },
+        },
+      },
     },
   },
   tags: [
     {
-      name: "Posts",
-      description: "Post management endpoints",
-    },
-    {
       name: "Auth",
       description: "Authentication endpoints",
+    },
+    {
+      name: "Projects",
+      description: "Project management endpoints",
     },
   ],
 };

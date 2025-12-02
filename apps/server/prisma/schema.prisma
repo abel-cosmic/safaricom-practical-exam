@@ -91,7 +91,7 @@ enum TaskStatus {
 }
 
 model Project {
-  id          String   @id @map("_id")
+  id          String   @id @default(cuid())
   name        String
   description String?
   createdAt   DateTime @default(now())
@@ -101,7 +101,7 @@ model Project {
 }
 
 model Task {
-  id        String     @id @map("_id")
+  id        String     @id @default(cuid())
   projectId String
   project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
   title     String
